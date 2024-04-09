@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useScroll, useTransform, motion } from 'framer-motion';
 import styles from './style.module.scss';
 
@@ -12,6 +12,18 @@ export default function index() {
     })
 
     const height = useTransform(scrollYProgress, [0, 0.9], [50, 0])
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      document.body.style.cssText = `--move-x: ${e.clientX}px; --move-y: ${e.clientY}px;`;
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);	
 
     return (
         <div ref={container} className={styles.slidingImages}>
